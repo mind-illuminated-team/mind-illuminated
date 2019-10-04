@@ -1,1 +1,1 @@
-# mind-illuminated
+# Mind Illuminated
