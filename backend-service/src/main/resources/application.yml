@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mind-illuminated-backend
+
+google-drive:
+  credentials: classpath:google-drive/credentials.json
+  parent-directory-id: 1xqFEB3LKctyJ9Q4J0MfkJ0C3zyMu531E

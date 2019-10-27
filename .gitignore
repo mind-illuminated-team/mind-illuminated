@@ -53,3 +53,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 .collabignore
+
+# IntelliJ IDEA
+.idea/
+*.iml
