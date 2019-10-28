@@ -9,7 +9,8 @@ public class VRSceneManager : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.LoadScene("StartGameUI", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("StartGameUI", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("UDPData", LoadSceneMode.Additive);
         SceneManager.sceneUnloaded += OnSceneUnloaded;
         Input.backButtonLeavesApp = true;
     }
