@@ -1,8 +1,10 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -34,7 +36,7 @@ public class StartGameScript : MonoBehaviour
     {
         GoogleSignIn.Configuration = configuration;
         statusText.text = "Signing in";
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
+        GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(OnAuthenticationFinished);
     }
 
     public void OnStartGame()

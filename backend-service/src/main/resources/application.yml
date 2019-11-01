@@ -1,13 +1,6 @@
 spring:
   application:
     name: mind-illuminated-backend
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${google.client-id}
-            client-secret: ${google.client-secret}
 
 google-drive:
   credentials: classpath:google-drive/credentials.json
