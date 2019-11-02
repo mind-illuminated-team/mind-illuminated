@@ -1,10 +1,10 @@
-package com.mindilluminated.backendservice.fileupload.drive
+package com.mindilluminated.backendservice.files.drive
 
 import com.google.api.client.http.InputStreamContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.google.api.services.drive.model.FileList
-import com.mindilluminated.backendservice.fileupload.FileStorage
+import com.mindilluminated.backendservice.files.FileStorage
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

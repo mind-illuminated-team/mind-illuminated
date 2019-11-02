@@ -1,4 +1,4 @@
-package com.mindilluminated.backendservice.fileupload.drive
+package com.mindilluminated.backendservice.files.drive
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.util.Utils

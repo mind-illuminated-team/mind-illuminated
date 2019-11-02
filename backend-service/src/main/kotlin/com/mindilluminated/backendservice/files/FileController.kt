@@ -1,4 +1,4 @@
-package com.mindilluminated.backendservice.fileupload
+package com.mindilluminated.backendservice.files
 
 import com.google.api.services.drive.model.File
 import com.google.common.net.HttpHeaders

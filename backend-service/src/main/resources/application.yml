@@ -6,6 +6,6 @@ google-drive:
   credentials: classpath:google-drive/credentials.json
   parent-folder-id: 1xqFEB3LKctyJ9Q4J0MfkJ0C3zyMu531E
 
-header-token:
-  name: ${token.name}
-  value: ${token.value}
+client-secret:
+  json: classpath:client_secret_427950668681-70ccui7mhd4tombv9dog4a7u9lm62j6k.apps.googleusercontent.com.json
+
