@@ -23,11 +23,11 @@ class GoogleDriveFileStorage(private val drive: Drive) : FileStorage {
     @Value("\${google-drive.parent-folder-id}")
     lateinit var parentFolderId: String
 
-    override fun storeFile(folder : String?, file: MultipartFile) {
-        val folderId = findFolderId(folder)
+    override fun storeFile(folder : String?, file: MultipartFile) : String {
+        var folderId = findFolderId(folder)
 
         if (folder != null && folderId == null) {
-            createFolder(folder)
+            folderId = createFolder(folder)
         }
 
         val parentId = if (folder == null) parentFolderId else folderId
@@ -37,12 +37,13 @@ class GoogleDriveFileStorage(private val drive: Drive) : FileStorage {
         driveFile.parents = listOf(parentId)
         driveFile.hasAugmentedPermissions = true
 
-        val fileId = drive
+        val storedFile = drive
                 .files()
                 .create(driveFile, InputStreamContent(file.contentType, file.inputStream))
                 .setFields("id")
-                .execute()
-        logger.info("File stored in drive with id: {}", fileId)
+                .execute() as File
+        logger.info("File stored in drive with id: {}", storedFile)
+        return storedFile.id
     }
 
     override fun downloadFile(folder : String?, name: String, outputStream: OutputStream) : File {
@@ -51,7 +52,7 @@ class GoogleDriveFileStorage(private val drive: Drive) : FileStorage {
         val file = getFile(name, listFiles(folderId ?: parentFolderId)) ?: throw FileNotFoundException()
 
         drive.files()
-                .get(file["id"] as String)
+                .get(file.id)
                 .executeMediaAndDownloadTo(outputStream)
         return file
     }
@@ -76,28 +77,27 @@ class GoogleDriveFileStorage(private val drive: Drive) : FileStorage {
                 .execute() as FileList
         logger.debug("Folders: {}", folders)
 
-        return getFile(name, folders)?.get("id") as String
+        return getFile(name, folders)?.id
     }
 
     fun getFile(name : String?, list : FileList?) : File? {
-        if (list == null) {
-            return null
-        }
-        for (file in list.files) {
-            if (file["name"] == name) {
-                return file
+        list?.let {
+            for (file in list.files) {
+                if (file.name == name) {
+                    return file
+                }
             }
         }
         return null
     }
 
-    fun createFolder(name : String) {
+    fun createFolder(name : String) : String {
         val folder = File()
         folder.name = name
         folder.mimeType = FOLDER_MIME_TYPE
         folder.parents = listOf(parentFolderId)
         folder.hasAugmentedPermissions = true
-        drive.files().create(folder).execute()
+        return (drive.files().create(folder).setFields("id").execute() as File).id
     }
 
 }

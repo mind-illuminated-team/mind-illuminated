@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: mind-illuminated-backend
+
+google-drive:
+  credentials: classpath:google-drive/test-credentials.json
+  parent-folder-id: 1xqFEB3LKctyJ9Q4J0MfkJ0C3zyMu531E
+
+client-secret:
+  json: classpath:test-client-secret.json
+

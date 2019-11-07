@@ -6,7 +6,7 @@ import java.io.OutputStream
 
 interface FileStorage {
 
-    fun storeFile(folder : String?, file: MultipartFile)
+    fun storeFile(folder : String?, file: MultipartFile) : String
 
     fun downloadFile(folder : String?, name : String, outputStream: OutputStream) : File
 
