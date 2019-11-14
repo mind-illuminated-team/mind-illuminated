@@ -4,23 +4,22 @@ using System.Threading;
 using System.Net;
 using System.Text;
 using System;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class UDPConnection : MonoBehaviour
+public class UDPConnection
 {
-    public int portNumber = 5000;
 
-    
-    public Text dataDisplay;
+    public static UDPConnection Instance { get; } = new UDPConnection();
 
-    private string sensorData;
+    private readonly int portNumber = 5000;
+
+    private readonly List<IUDPDataListener> listeners = new List<IUDPDataListener>();
 
     private Thread listeningThread;
 
     private UdpClient udp;
 
-    // Use this for initialization
-    void Start()
+    private UDPConnection()
     {
         Debug.Log("Starting UDP listener on port " + portNumber);
 
@@ -53,7 +52,7 @@ public class UDPConnection : MonoBehaviour
                     Debug.Log("Address IP Sender" + RemoteIpEndPoint.Address.ToString());
                     Debug.Log("Port Number Sender" + RemoteIpEndPoint.Port.ToString());
 
-                    sensorData = data;
+                    listeners.ForEach(l => l.Listen(data));
                 }
             }
             catch (Exception e)
@@ -63,13 +62,12 @@ public class UDPConnection : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RegisterListener(IUDPDataListener listener)
     {
-        dataDisplay.text = sensorData;
+        listeners.Add(listener);
     }
 
-    void OnDisable()
+    ~UDPConnection()
     {
         if (listeningThread != null && listeningThread.IsAlive)
         {
@@ -78,4 +76,5 @@ public class UDPConnection : MonoBehaviour
 
         udp.Close();
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿using Google;
 
-public class UserHolder
+public static class UserHolder
 {
     public static GoogleSignInUser USER;
 }

@@ -1,12 +1,10 @@
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Google;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartGameScript : MonoBehaviour

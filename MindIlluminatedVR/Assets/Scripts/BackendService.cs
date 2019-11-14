@@ -3,36 +3,25 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BackendService : MonoBehaviour
+public sealed class BackendService
 {
-    private static BackendService instance;
 
-    public static BackendService Instance { get { return instance; } }
+    public static BackendService Instance { get; } = new BackendService();
 
-    public string BackendUrl = "http://mind-illuminated-backend.herokuapp.com";
+    private static readonly string BackendUrl = "http://mind-illuminated-backend.herokuapp.com";
 
-    public string AccessHeaderName = "X-Access-Token";
+    private static readonly string AccessHeaderName = "X-Access-Token";
 
-    public string AuthHeaderName = "X-Auth-Code";
+    private static readonly string AuthHeaderName = "X-Auth-Code";
 
-    [HideInInspector]
     public string AccessToken { get; set; }
 
-    [HideInInspector]
     public string TestData { get; set; }
 
-    [HideInInspector]
     public string GetFilesData { get; set; }
 
-    void Awake()
-    {
-        instance = this;
-    }
-
-    void OnDestroy()
-    {
-        instance = null;
-    }
+    static BackendService() { }
+    private BackendService() { }
 
     public UnityWebRequestAsyncOperation GetAccessToken()
     {
