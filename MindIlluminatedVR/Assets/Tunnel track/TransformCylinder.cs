@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class TransformCylinder : MonoBehaviour
 {
+    public bool complex = false;
+
     private Mesh mesh;
     private int[] newTriangles;
 
@@ -14,8 +16,10 @@ public class TransformCylinder : MonoBehaviour
     {
         mesh = GetComponent<MeshFilter>().mesh;
 
-        ApplySlope();
-        RenderTunnel();
+        if (!complex)
+            RenderTunnel();
+        else
+            RenderComplexTunnel();
     }
 
     // Transform cylinder into tunnel
@@ -72,8 +76,39 @@ public class TransformCylinder : MonoBehaviour
         #endregion
     }
 
-    private void ApplySlope()
+    private void RenderComplexTunnel()
     {
+        newTriangles = new int[mesh.triangles.Length];
 
+        // Just swap all triangle orders, thus rendering object from inside
+        for (int i = 0; i < mesh.triangles.Length; i = i + 3)
+        {
+            newTriangles[i] = mesh.triangles[i];
+            newTriangles[i + 1] = mesh.triangles[i + 2];
+            newTriangles[i + 2] = mesh.triangles[i + 1];
+        }
+
+        // Drop triangles corresponding to end circles (if all verticies of a triangle have Z=4 or Z=-4 relative coords)
+        for (int i = 0; i < mesh.triangles.Length; i = i + 3)
+        {
+            int tri_ind_1 = mesh.triangles[i];
+            int tri_ind_2 = mesh.triangles[i + 1];
+            int tri_ind_3 = mesh.triangles[i + 2];
+
+            if (Mathf.Abs(mesh.vertices[tri_ind_1].z) == 4 &&
+                Mathf.Abs(mesh.vertices[tri_ind_2].z) == 4 &&
+                Mathf.Abs(mesh.vertices[tri_ind_3].z) == 4)
+            {
+                newTriangles[i] = 0;
+                newTriangles[i+1] = 0;
+                newTriangles[i+2] = 0;
+            }
+        }
+
+        mesh.triangles = newTriangles;
+
+        // Save mesh for later use - comment once saved
+        //UnityEditor.AssetDatabase.CreateAsset(mesh, "Assets/SplineMesh/DemoAssets/Mesh/Cylinder_inside.asset");
+        //UnityEditor.AssetDatabase.SaveAssets();
     }
 }

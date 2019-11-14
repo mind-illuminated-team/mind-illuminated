@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
 public class VisualizeMesh : MonoBehaviour
 {
     public GameObject markerObject;
@@ -33,6 +34,7 @@ public class VisualizeMesh : MonoBehaviour
 
             markerObject.name = gameObject.name + "_Marker_" + i;
             Instantiate(markerObject, vertex_pos, Quaternion.identity);
+            //Instantiate(markerObject, mesh.vertices[i], Quaternion.identity);
         }
     }
 }
