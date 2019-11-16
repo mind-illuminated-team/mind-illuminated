@@ -1,30 +1,64 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class SensorDataProvider : MonoBehaviour, IUDPDataListener
+namespace Sensors
 {
-    public Text text;
-
-    private List<ushort> sensorData;
-
-    public void Listen(string data)
+    public class SensorDataProvider : MonoBehaviour, IUDPDataListener
     {
-        ushort.TryParse(data, out ushort newData);
-        sensorData.Add(newData);
-    }
+        public Text text;
 
-    void Start()
-    {
-        sensorData = new List<ushort>();
-        UDPConnection.Instance.RegisterListener(this);
-    }
+        private List<ushort> sensorData;
 
-    void Update()
-    {
-        if (text != null && sensorData.Count > 0)
+        private bool capturing;
+
+        public void Listen(string data)
         {
-            text.text = sensorData[sensorData.Count - 1].ToString();
+            if (capturing)
+            {
+                sensorData.Add(SensorDataConverter.StringToUshort(data));
+            }
         }
+
+        void Awake()
+        {
+            sensorData = new List<ushort>();
+            UDPConnection.Instance.RegisterListener(this);
+        }
+
+        void Update()
+        {
+            if (text != null && sensorData.Count > 0)
+            {
+                text.text = sensorData[sensorData.Count - 1].ToString();
+            }
+        }
+
+        public ushort? GetLastData()
+        {
+            return sensorData.Count == 0 ? sensorData[sensorData.Count - 1] : (ushort?) null;
+        }
+
+        public void StartCapture()
+        {
+            capturing = true;
+        }
+
+        public void StopCapture()
+        {
+            capturing = false;
+        }
+
+        public List<ushort> GetAllData()
+        {
+            return sensorData;
+        }
+
+        public void ClearData()
+        {
+            sensorData.Clear();
+        }
+
     }
 }
+

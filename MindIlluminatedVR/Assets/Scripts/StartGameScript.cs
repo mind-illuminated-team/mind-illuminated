@@ -1,92 +1,56 @@
 
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Google;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class StartGameScript : MonoBehaviour
+public class StartGameScript : MonoBehaviour, IBackendServiceListener
 {
     public GameObject signInButton;
     public GameObject startGameButton;
-
+    
     public Text statusText;
+    private string status;
 
     public string webClientId = "<your-web-client-id>";
 
-    private GoogleSignInConfiguration configuration;
+    private VRSceneManager sceneManager;
+
+    private int listenerIdx;
 
     // Defer the configuration creation until Awake so the web Client ID
     // Can be set via the property inspector in the Editor.
     void Awake()
     {
-        configuration = new GoogleSignInConfiguration
-        {
-            WebClientId = webClientId,
-            RequestAuthCode = true,
-            RequestIdToken = true,
-            UseGameSignIn = false
-        };
+        sceneManager = FindObjectOfType<VRSceneManager>();
+        listenerIdx = BackendService.Instance.RegisterListener(this);
+    }
+
+    void Start()
+    {
+        CheckSignedInUser();
+    }
+
+    void Update()
+    {
+        statusText.text = status;
+    }
+
+    void OnDestroy()
+    {
+        BackendService.Instance.UnregisterListener(listenerIdx);
     }
 
     public void OnSignIn()
     {
-        GoogleSignIn.Configuration = configuration;
-        statusText.text = "Signing in";
-        GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(OnAuthenticationFinished);
+        status = "Signing in...";
+        GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(this.OnAuthenticationFinished);
     }
 
     public void OnStartGame()
     {
-        statusText.text = "Connecting to server...";
-
-        var operation = BackendService.Instance.GetAccessToken();
-        operation.completed += OnBackendConnectionFinished;
-    }
-
-    internal void OnBackendConnectionFinished(AsyncOperation action)
-    {
-        UnityWebRequestAsyncOperation operation = (UnityWebRequestAsyncOperation) action;
-        if (operation.webRequest.isHttpError || operation.webRequest.isNetworkError)
-        {
-            statusText.text = "Connection error: " + operation.webRequest.error;
-        }
-        else
-        {
-            statusText.text = "Uploading test data...";
-            operation = BackendService.Instance.UploadTestFile();
-            operation.completed += OnUploadTestFileFinished;
-        }
-    }
-
-    internal void OnUploadTestFileFinished(AsyncOperation action)
-    {
-        UnityWebRequestAsyncOperation operation = (UnityWebRequestAsyncOperation) action;
-        if (operation.webRequest.isHttpError || operation.webRequest.isNetworkError)
-        {
-            statusText.text = "Upload error: " + operation.webRequest.error;
-        }
-        else
-        {
-            statusText.text = "Downloading test data...";
-            operation = BackendService.Instance.DownloadTestData();
-            operation.completed += OnDownloadTestDataFinished;
-        }
-    }
-
-    internal void OnDownloadTestDataFinished(AsyncOperation action)
-    {
-        UnityWebRequestAsyncOperation operation = (UnityWebRequestAsyncOperation)action;
-        if (operation.webRequest.isHttpError || operation.webRequest.isNetworkError)
-        {
-            statusText.text = "Download error: " + operation.webRequest.error;
-        }
-        else
-        {
-            statusText.text = "Test data: " + Encoding.UTF8.GetString(operation.webRequest.downloadHandler.data);
-        }
+        sceneManager.StartGame();
     }
 
     internal void OnAuthenticationFinished(Task<GoogleSignInUser> task)
@@ -99,25 +63,41 @@ public class StartGameScript : MonoBehaviour
                 if (enumerator.MoveNext())
                 {
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException) enumerator.Current;
-                    statusText.text = "Got Error: " + error.Status + " " + error.Message;
+                    status = "Got Error: " + error.Status + " " + error.Message;
                 }
                 else
                 {
-                    statusText.text = "Got Unexpected Exception:" + task.Exception;
+                    status = "Got Unexpected Exception:" + task.Exception;
                 }
             }
         }
         else if (task.IsCanceled)
         {
-            statusText.text = "Canceled";
+            status = "Canceled";
         }
         else
         {
-            UserHolder.USER = task.Result;
-            statusText.text = "Welcome " + task.Result.DisplayName + "!";
+            GoogleSignInHelper.User = task.Result;
+            BackendService.Instance.GetAccessToken();
+        }
+    }
+
+    internal void CheckSignedInUser()
+    {
+        if (GoogleSignInHelper.User != null)
+        {
+            status = "Welcome " + GoogleSignInHelper.User.DisplayName + "!";
+            //status = "Auth code: " + UserHolder.USER.AuthCode;
+            Debug.Log(status);
             signInButton.SetActive(false);
             startGameButton.SetActive(true);
         }
+    }
+
+    public void Listen(string message)
+    {
+        status = message;
+        Invoke("CheckSignedInUser", 3);
     }
 
 }

@@ -6,75 +6,79 @@ using System.Text;
 using System;
 using System.Collections.Generic;
 
-public class UDPConnection
+namespace Sensors
 {
-
-    public static UDPConnection Instance { get; } = new UDPConnection();
-
-    private readonly int portNumber = 5000;
-
-    private readonly List<IUDPDataListener> listeners = new List<IUDPDataListener>();
-
-    private Thread listeningThread;
-
-    private UdpClient udp;
-
-    private UDPConnection()
+    public class UDPConnection
     {
-        Debug.Log("Starting UDP listener on port " + portNumber);
 
-        listeningThread = new Thread(new ThreadStart(UdpListener))
+        public static UDPConnection Instance { get; } = new UDPConnection();
+
+        private readonly int portNumber = 5000;
+
+        private readonly List<IUDPDataListener> listeners = new List<IUDPDataListener>();
+
+        private Thread listeningThread;
+
+        private UdpClient udp;
+
+        private UDPConnection()
         {
-            IsBackground = true
-        };
+            Debug.Log("Starting UDP listener on port " + portNumber);
 
-        listeningThread.Start();
-    }
-
-    public void UdpListener()
-    {
-        udp = new UdpClient(portNumber);
-
-        while (true)
-        {
-            //Listening 
-            try
+            listeningThread = new Thread(new ThreadStart(UdpListener))
             {
-                IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                //IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Broadcast, 5000);
+                IsBackground = true
+            };
 
-                byte[] receiveBytes = udp.Receive(ref RemoteIpEndPoint);
+            listeningThread.Start();
+        }
 
-                if (receiveBytes != null)
+        public void UdpListener()
+        {
+            udp = new UdpClient(portNumber);
+
+            while (true)
+            {
+                //Listening 
+                try
                 {
-                    string data = Encoding.ASCII.GetString(receiveBytes);
-                    Debug.Log("Message Received" + data.ToString());
-                    Debug.Log("Address IP Sender" + RemoteIpEndPoint.Address.ToString());
-                    Debug.Log("Port Number Sender" + RemoteIpEndPoint.Port.ToString());
+                    IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                    //IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Broadcast, 5000);
 
-                    listeners.ForEach(l => l.Listen(data));
+                    byte[] receiveBytes = udp.Receive(ref RemoteIpEndPoint);
+
+                    if (receiveBytes != null)
+                    {
+                        string data = Encoding.ASCII.GetString(receiveBytes);
+                        Debug.Log("Message Received: " + data.ToString() +
+                            "\nAddress IP Sender: " + RemoteIpEndPoint.Address.ToString() +
+                            "\nPort Number Sender: " + RemoteIpEndPoint.Port.ToString());
+
+                        listeners.ForEach(l => l.Listen(data));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e.ToString());
                 }
             }
-            catch (Exception e)
-            {
-                Debug.Log(e.ToString());
-            }
         }
-    }
 
-    public void RegisterListener(IUDPDataListener listener)
-    {
-        listeners.Add(listener);
-    }
-
-    ~UDPConnection()
-    {
-        if (listeningThread != null && listeningThread.IsAlive)
+        public void RegisterListener(IUDPDataListener listener)
         {
-            listeningThread.Abort();
+            listeners.Add(listener);
         }
 
-        udp.Close();
-    }
+        ~UDPConnection()
+        {
+            if (listeningThread != null && listeningThread.IsAlive)
+            {
+                listeningThread.Abort();
+            }
 
+            udp.Close();
+        }
+
+    }
 }
+

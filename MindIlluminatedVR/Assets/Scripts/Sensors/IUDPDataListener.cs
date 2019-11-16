@@ -1,7 +1,10 @@
 ﻿
-public interface IUDPDataListener
+namespace Sensors
 {
+    public interface IUDPDataListener
+    {
 
-    void Listen(string data);
+        void Listen(string data);
 
+    }
 }
