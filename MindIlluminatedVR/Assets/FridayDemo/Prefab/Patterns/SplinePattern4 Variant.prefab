@@ -1,0 +1,281 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3112659186520302137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3210139070609734469}
+  m_Layer: 0
+  m_Name: SplinePattern4 Variant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3210139070609734469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3112659186520302137}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1740203170437361730}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4600913614746955942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1740203170437361730}
+  - component: {fileID: 3500070259594329327}
+  - component: {fileID: 5442085090265935324}
+  - component: {fileID: 5119799721828209330}
+  m_Layer: 0
+  m_Name: Spline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1740203170437361730
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4600913614746955942}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3210139070609734469}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3500070259594329327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4600913614746955942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a85c5879d519aa4ab2ebbf42591149a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodes:
+  - position: {x: 0.009393498, y: 0, z: 0}
+    direction: {x: 1.4141812, y: 0, z: -2.3054519}
+    up: {x: 0, y: 1, z: 0}
+    scale: {x: 1, y: 1}
+    roll: 0
+  - position: {x: 4.023073, y: 0, z: -6.5870056}
+    direction: {x: 8.935539, y: 0, z: -5.5442343}
+    up: {x: 0, y: 1, z: 0}
+    scale: {x: 1, y: 1}
+    roll: 0
+  - position: {x: 4.8760815, y: 0, z: -0.0072330236}
+    direction: {x: 5.4227314, y: 2.9166274, z: 4.0830445}
+    up: {x: -0.9740782, y: 0.18499829, z: 0.13018183}
+    scale: {x: 1, y: 1}
+    roll: 0
+  - position: {x: 5.251513, y: 7.3557205, z: 2.57}
+    direction: {x: 7.2449427, y: 9.328425, z: 8.923085}
+    up: {x: -0.98693806, y: 0.0464263, z: -0.15426566}
+    scale: {x: 1, y: 1}
+    roll: 0.33
+  - position: {x: 8.706642, y: 0, z: 11.45141}
+    direction: {x: 13.079048, y: -8.595191, z: 8.900219}
+    up: {x: -0.5051565, y: -0.5280787, z: 0.6826052}
+    scale: {x: 1, y: 1}
+    roll: 0
+  - position: {x: 10.672544, y: -3.0937045, z: -4.5973396}
+    direction: {x: 19.549866, y: -3.5530186, z: -9.889339}
+    up: {x: 0, y: 1, z: 0}
+    scale: {x: 1, y: 1}
+    roll: 0
+  - position: {x: 22.807655, y: -1.3414242, z: 0.003254861}
+    direction: {x: 29.859516, y: -0.2446506, z: 1.4064226}
+    up: {x: 0, y: 1, z: 0}
+    scale: {x: 1, y: 1}
+    roll: 0
+  - position: {x: 30.38577, y: -0.083525896, z: 0.22831671}
+    direction: {x: 33.038113, y: 0.3567385, z: 0.30708835}
+    up: {x: -0.20793152, y: 0.9781434, z: -0.000013404759}
+    scale: {x: 1, y: 1}
+    roll: 0
+  curves:
+  - n1:
+      position: {x: 0.009393498, y: 0, z: 0}
+      direction: {x: 1.4141812, y: 0, z: -2.3054519}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    n2:
+      position: {x: 4.023073, y: 0, z: -6.5870056}
+      direction: {x: 8.935539, y: 0, z: -5.5442343}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - n1:
+      position: {x: 4.023073, y: 0, z: -6.5870056}
+      direction: {x: 8.935539, y: 0, z: -5.5442343}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    n2:
+      position: {x: 4.8760815, y: 0, z: -0.0072330236}
+      direction: {x: 5.4227314, y: 2.9166274, z: 4.0830445}
+      up: {x: -0.9740782, y: 0.18499829, z: 0.13018183}
+      scale: {x: 1, y: 1}
+      roll: 0
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - n1:
+      position: {x: 4.8760815, y: 0, z: -0.0072330236}
+      direction: {x: 5.4227314, y: 2.9166274, z: 4.0830445}
+      up: {x: -0.9740782, y: 0.18499829, z: 0.13018183}
+      scale: {x: 1, y: 1}
+      roll: 0
+    n2:
+      position: {x: 5.251513, y: 7.3557205, z: 2.57}
+      direction: {x: 7.2449427, y: 9.328425, z: 8.923085}
+      up: {x: -0.98693806, y: 0.0464263, z: -0.15426566}
+      scale: {x: 1, y: 1}
+      roll: 0.33
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - n1:
+      position: {x: 5.251513, y: 7.3557205, z: 2.57}
+      direction: {x: 7.2449427, y: 9.328425, z: 8.923085}
+      up: {x: -0.98693806, y: 0.0464263, z: -0.15426566}
+      scale: {x: 1, y: 1}
+      roll: 0.33
+    n2:
+      position: {x: 8.706642, y: 0, z: 11.45141}
+      direction: {x: 13.079048, y: -8.595191, z: 8.900219}
+      up: {x: -0.5051565, y: -0.5280787, z: 0.6826052}
+      scale: {x: 1, y: 1}
+      roll: 0
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - n1:
+      position: {x: 8.706642, y: 0, z: 11.45141}
+      direction: {x: 13.079048, y: -8.595191, z: 8.900219}
+      up: {x: -0.5051565, y: -0.5280787, z: 0.6826052}
+      scale: {x: 1, y: 1}
+      roll: 0
+    n2:
+      position: {x: 10.672544, y: -3.0937045, z: -4.5973396}
+      direction: {x: 19.549866, y: -3.5530186, z: -9.889339}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - n1:
+      position: {x: 10.672544, y: -3.0937045, z: -4.5973396}
+      direction: {x: 19.549866, y: -3.5530186, z: -9.889339}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    n2:
+      position: {x: 22.807655, y: -1.3414242, z: 0.003254861}
+      direction: {x: 29.859516, y: -0.2446506, z: 1.4064226}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - n1:
+      position: {x: 22.807655, y: -1.3414242, z: 0.003254861}
+      direction: {x: 29.859516, y: -0.2446506, z: 1.4064226}
+      up: {x: 0, y: 1, z: 0}
+      scale: {x: 1, y: 1}
+      roll: 0
+    n2:
+      position: {x: 30.38577, y: -0.083525896, z: 0.22831671}
+      direction: {x: 33.038113, y: 0.3567385, z: 0.30708835}
+      up: {x: -0.20793152, y: 0.9781434, z: -0.000013404759}
+      scale: {x: 1, y: 1}
+      roll: 0
+    Changed:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  Length: 88.40619
+  isLoop: 0
+  CurveChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &5442085090265935324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4600913614746955942}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174367e175762fb48ba55d6171e99990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 4300000, guid: 68b78606116764b4a97b0bcd111eb981, type: 3}
+  material: {fileID: 2100000, guid: 3fa6719625f18d54596f998129efe8a9, type: 2}
+  physicMaterial: {fileID: 0}
+  translation: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 90, z: 0}
+  scale: {x: 0.3, y: 0.3, z: 0.3}
+  generateCollider: 0
+  updateInPlayMode: 1
+  curveSpace: 1
+  mode: 1
+--- !u!114 &5119799721828209330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4600913614746955942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c62baecdb58fe4583d8f8283102e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curvature: 0.7

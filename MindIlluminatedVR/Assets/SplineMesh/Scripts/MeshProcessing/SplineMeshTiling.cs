@@ -98,6 +98,23 @@ namespace SplineMesh {
             }
         }
 
+        #region Raed
+
+        public void CreateMeshOnTheRun(int start)
+        {
+            var used = new List<GameObject>();
+            var go = FindOrCreate("segment  mesh");
+            go.GetComponent<MeshBender>().SetInterval(spline, start);
+            go.GetComponent<MeshCollider>().enabled = generateCollider;
+            used.Add(go);
+
+        }
+
+
+        #endregion
+
+
+
         private GameObject FindOrCreate(string name) {
             var childTransform = generated.transform.Find(name);
             GameObject res;

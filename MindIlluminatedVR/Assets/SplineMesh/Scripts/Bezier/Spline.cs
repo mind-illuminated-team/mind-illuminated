@@ -236,6 +236,15 @@ namespace SplineMesh {
             updateLoopBinding();
         }
 
+        #region Raed
+
+            public Vector3 WorldPosition(Vector3 position)
+            {
+                return transform.TransformPoint(position);
+            }
+
+        #endregion
+
         SplineNode start, end;
         private void updateLoopBinding() {
             if(start != null) {
@@ -275,6 +284,10 @@ namespace SplineMesh {
             start.Up = end.Up;
             start.Changed += StartNodeChanged;
         }
+
+
+        
+
     }
 
     public enum ListChangeType {

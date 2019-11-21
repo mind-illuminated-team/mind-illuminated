@@ -44,6 +44,7 @@ namespace SplineMesh {
 
         void EditorUpdate() {
             rate += Time.deltaTime / DurationInSecond;
+           
             if (rate > spline.nodes.Count - 1)
             {
                 rate -= spline.nodes.Count - 1;
@@ -64,5 +65,21 @@ namespace SplineMesh {
                 }
             }
         }
+        #region Raed
+
+        private void DebugScreen(float value) {
+
+            Debug.Log(value);
+
+        }
+
+
+        #endregion
+
+
+
     }
+
+
+
 }

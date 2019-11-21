@@ -25,6 +25,17 @@ namespace SplineMesh {
                 if(Changed != null) Changed(this, EventArgs.Empty);
             }
         }
+
+        public Vector3 WorldPosition(Transform coordinate)
+        {
+            return coordinate.TransformPoint(position);
+        }
+
+        public Vector3 WorldDirection(Transform coordinate)
+        {
+            return coordinate.TransformPoint(direction);
+        }
+
         [SerializeField]
         private Vector3 position;
 
