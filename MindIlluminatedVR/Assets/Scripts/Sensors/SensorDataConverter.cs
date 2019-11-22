@@ -20,6 +20,8 @@ namespace Sensors {
         {
             StringBuilder sb = new StringBuilder();
 
+            sb.Append("Sensor data\n");
+
             sensorData.ForEach(d => sb.Append(d).Append("\n"));
 
             return sb.ToString();

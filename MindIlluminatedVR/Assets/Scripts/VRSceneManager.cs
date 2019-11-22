@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>Ensures correct app and scene setup.</summary>
-public class VRSceneManager : MonoBehaviour
+public class VRSceneManager : Singleton<VRSceneManager>
 {
 
-    public float gameDurationSeconds = 10.0f;
+    private static readonly string START_GAME_SCENE = "StartGameScene";
+    private static readonly string GAME_SCENE = "FridayDemoBackupScene";
+
+    public float gameDurationSeconds = 20.0f;
 
     private float elapsedTime = 0.0f;
     private bool running = false;
@@ -19,9 +22,8 @@ public class VRSceneManager : MonoBehaviour
     {
         Input.backButtonLeavesApp = true;
 
-        sensorDataProvider = GetComponent<SensorDataProvider>();
+        sensorDataProvider = SensorDataProvider.Instance;
 
-        StartCoroutine(LoadStartSceneAsync());
     }
 
     private void Update()
@@ -49,28 +51,31 @@ public class VRSceneManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.UnloadSceneAsync("StartGameUI");
+        Debug.Log("Starting game");
         sensorDataProvider.ClearData();
         sensorDataProvider.StartCapture();
+        StartCoroutine(LoadSceneAsync(GAME_SCENE));
         running = true;
     }
 
     public void EndGame()
     {
+        Debug.Log("Ending game");
         elapsedTime = 0.0f;
         running = false;
         sensorDataProvider.StopCapture();
-        StartCoroutine(LoadStartSceneAsync());
+        StartCoroutine(LoadSceneAsync(START_GAME_SCENE));
         UploadSensorData();
     }
 
-    IEnumerator LoadStartSceneAsync()
+    IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("StartGameUI", LoadSceneMode.Additive);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+        Debug.Log(sceneName + " loaded");
     }
 
     private void UploadSensorData()

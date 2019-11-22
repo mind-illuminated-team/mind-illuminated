@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google;
+using Sensors;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,9 @@ public class StartGameScript : MonoBehaviour, IBackendServiceListener
 {
     public GameObject signInButton;
     public GameObject startGameButton;
-    
+
     public Text statusText;
     private string status;
-
-    public string webClientId = "<your-web-client-id>";
 
     private VRSceneManager sceneManager;
 
@@ -23,8 +22,11 @@ public class StartGameScript : MonoBehaviour, IBackendServiceListener
     // Can be set via the property inspector in the Editor.
     void Awake()
     {
-        sceneManager = FindObjectOfType<VRSceneManager>();
+        sceneManager = VRSceneManager.Instance;
+
         listenerIdx = BackendService.Instance.RegisterListener(this);
+        signInButton.GetComponent<Button>().onClick.AddListener(OnSignIn);
+        startGameButton.GetComponent<Button>().onClick.AddListener(OnStartGame);
     }
 
     void Start()
@@ -45,7 +47,7 @@ public class StartGameScript : MonoBehaviour, IBackendServiceListener
     public void OnSignIn()
     {
         status = "Signing in...";
-        GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(this.OnAuthenticationFinished);
+        GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(OnAuthenticationFinished);
     }
 
     public void OnStartGame()
@@ -87,7 +89,6 @@ public class StartGameScript : MonoBehaviour, IBackendServiceListener
         if (GoogleSignInHelper.User != null)
         {
             status = "Welcome " + GoogleSignInHelper.User.DisplayName + "!";
-            //status = "Auth code: " + UserHolder.USER.AuthCode;
             Debug.Log(status);
             signInButton.SetActive(false);
             startGameButton.SetActive(true);

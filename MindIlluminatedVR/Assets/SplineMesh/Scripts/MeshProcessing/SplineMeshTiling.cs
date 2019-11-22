@@ -44,6 +44,13 @@ namespace SplineMesh {
         [Tooltip("The mode to use to fill the choosen interval with the bent mesh.")]
         public MeshBender.FillingMode mode = MeshBender.FillingMode.StretchToInterval;
 
+
+
+        #region Raed
+        public bool isCave = false;
+
+        #endregion
+
         private void OnEnable() {
             // tip : if you name all generated content in the same way, you can easily find all of it
             // at once in the scene view, with a single search.
@@ -69,7 +76,12 @@ namespace SplineMesh {
             if (toUpdate) {
                 toUpdate = false;
                 CreateMeshes();
+               
             }
+
+
+
+            
         }
 
         public void CreateMeshes() {
@@ -97,6 +109,23 @@ namespace SplineMesh {
                 UOUtility.Destroy(go);
             }
         }
+
+        #region Raed
+
+        public void CreateMeshOnTheRun(int start)
+        {
+            var used = new List<GameObject>();
+            var go = FindOrCreate("segment  mesh");
+            go.GetComponent<MeshBender>().SetInterval(spline, start);
+            go.GetComponent<MeshCollider>().enabled = generateCollider;
+            used.Add(go);
+
+        }
+
+
+        #endregion
+
+
 
         private GameObject FindOrCreate(string name) {
             var childTransform = generated.transform.Find(name);

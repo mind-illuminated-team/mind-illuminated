@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace Sensors
 {
-    public class SensorDataProvider : MonoBehaviour, IUDPDataListener
+    public class SensorDataProvider : Singleton<SensorDataProvider>, IUDPDataListener
     {
-        public Text text;
 
         private List<ushort> sensorData;
 
@@ -24,14 +21,6 @@ namespace Sensors
         {
             sensorData = new List<ushort>();
             UDPConnection.Instance.RegisterListener(this);
-        }
-
-        void Update()
-        {
-            if (text != null && sensorData.Count > 0)
-            {
-                text.text = sensorData[sensorData.Count - 1].ToString();
-            }
         }
 
         public ushort? GetLastData()
