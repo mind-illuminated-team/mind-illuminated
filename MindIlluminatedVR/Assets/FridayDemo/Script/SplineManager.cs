@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SplineMesh;
+using System.Threading.Tasks;
+using System.Threading;
+
 public class SplineManager : MonoBehaviour
 {
 
@@ -15,6 +18,7 @@ public class SplineManager : MonoBehaviour
     private Spline baseSpline;
     private GameObject caveMeshGenerated;
     public SplineMeshTiling splineMeshTiling;
+    private Thread managerThread;
 
     #region DemoVariables
 
@@ -30,6 +34,8 @@ public class SplineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*managerThread = new Thread(new ThreadStart(Setup));
+        managerThread.Start();*/
         Setup();
     }
 
@@ -100,7 +106,7 @@ public class SplineManager : MonoBehaviour
                 // --- END
             }
         }
-       // baseSpline.GetComponent<SplineMeshTiling>().CreateMeshOnTheRun(0);
+        // baseSpline.GetComponent<SplineMeshTiling>().CreateMeshOnTheRun(0);        
         StartCoroutine(SplineConnector());
 
     }
@@ -123,11 +129,8 @@ public class SplineManager : MonoBehaviour
 
         for (int i = 1; i < splineCount; i++)
         {
-
-           
-
-            ExtendSpline(i);
             yield return new WaitForSeconds(9);
+            ExtendSpline(i);
         }
 
 
@@ -163,6 +166,7 @@ public class SplineManager : MonoBehaviour
     }
     private void ExtendSpline(int index) {
 
+        
         Spline nextSpline = GetSplineComponent(index);
         List<Vector3> nodesPosition = new List<Vector3>();
         List<Vector3> nodesDirection = new List<Vector3>();
@@ -175,7 +179,7 @@ public class SplineManager : MonoBehaviour
             nodesPosition.Add(nextSpline.WorldPosition(nextSpline.nodes[i].Position));
             //nodesDirection.Add(new Vector3(nextSpline.nodes[i].Direction.x, nextSpline.nodes[i].Direction.y, nextSpline.nodes[i].Direction.z));
 
-           // Debug.Log("direction" + nextSpline.nodes[i].Direction);
+            // Debug.Log("direction" + nextSpline.nodes[i].Direction);
             nodesDirection.Add(nextSpline.WorldPosition(nextSpline.nodes[i].Direction));
             nodesUp.Add(nextSpline.WorldPosition(nextSpline.nodes[i].Up));
             nodesRoll.Add(nextSpline.nodes[i].Roll);
@@ -191,39 +195,40 @@ public class SplineManager : MonoBehaviour
             Instantiate(portalPrefab, nodesPosition[nodeCount - 4]+Vector3.up, Quaternion.identity);
         }
 
-        StartCoroutine(ExtendNode(nodesPosition,nodesDirection, nodesUp,nodesRoll,lastNodeIndex, nodeCount)) ;
+        new Thread(() => {
+            int LastNodeIndexPerm = lastNodeIndex;
+            baseSpline.RemoveNode(baseSpline.nodes[lastNodeIndex]);
+            for (int i = 0; i < nodeCount - 1; i++)
+            {
 
-    }
+                SplineNode node = new SplineNode(nodesPosition[i], nodesDirection[i]);
+                baseSpline.AddNode(node);
+                lastNodeIndex++;
+                //yield return new WaitForSeconds(nodeExtendDelay);
+            }
+        }).Start();
+
+
+        //StartCoroutine(ExtendNode(nodesPosition, nodesDirection, nodesUp, nodesRoll, lastNodeIndex, nodeCount));
+
+    }    
 
     private float nodeExtendDelay = 1f;
     private IEnumerator ExtendNode(List<Vector3> nodesPosition, List<Vector3> nodesDirection, List<Vector3> nodesUp,List<float> nodesRoll, int lastnodeIndex, int nodeCount) {
-
-        //Vector3 positionShift= baseSpline.WorldPosition()
-        //Vector3 positionShift= baseSpline.WorldPosition()
         int LastNodeIndexPerm = lastnodeIndex;
-        SplineNode nodeToBeRemoved = baseSpline.nodes[lastnodeIndex];
-        baseSpline.RemoveNode(nodeToBeRemoved);
+        baseSpline.RemoveNode(baseSpline.nodes[lastnodeIndex]);
         List<SplineNode> tempNodes = new List<SplineNode>();
+        List<SplineNode> SNCollector = new List<SplineNode>();
         for (int i = 0; i < nodeCount-1; i++) {
-
-            //baseSpline.nodes.Add(new SplineNode(nodesPosition[i], nodesDirection[i]));
+            
             SplineNode node = new SplineNode(nodesPosition[i], nodesDirection[i]);
             tempNodes.Add(node);
-            //node.Up = nodesUp[i];
-            //node.Roll = nodesRoll[i];
+            SNCollector.Add(node);
             baseSpline.AddNode(node);
             lastnodeIndex++;
             yield return new WaitForSeconds(nodeExtendDelay);
         }
-
-       
-
-
-
-
-
-        //baseSpline.GetComponent<SplineMeshTiling>().CreateMeshOnTheRun(LastNodeIndexPerm);
-
+        //baseSpline.AddMultipleNodes(SNCollector);
     }
 
     private void Connect(int index) {

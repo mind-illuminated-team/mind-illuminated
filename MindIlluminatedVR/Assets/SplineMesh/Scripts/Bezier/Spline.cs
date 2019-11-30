@@ -165,19 +165,43 @@ namespace SplineMesh {
         /// <param name="node"></param>
         public void AddNode(SplineNode node) {
             nodes.Add(node);
-            if (nodes.Count != 1) {
+            if (nodes.Count != 1)
+            {
                 SplineNode previousNode = nodes[nodes.IndexOf(node) - 1];
                 CubicBezierCurve curve = new CubicBezierCurve(previousNode, node);
                 curve.Changed.AddListener(UpdateAfterCurveChanged);
                 curves.Add(curve);
             }
-            RaiseNodeListChanged(new ListChangedEventArgs<SplineNode>() {
+            RaiseNodeListChanged(new ListChangedEventArgs<SplineNode>()
+            {
                 type = ListChangeType.Add,
                 newItems = new List<SplineNode>() { node }
             });
 
             UpdateAfterCurveChanged();
             updateLoopBinding();
+        }
+
+        public void AddMultipleNodes(List<SplineNode> _nodes)
+        {
+            _nodes.ForEach(node => {
+                nodes.Add(node);
+                if (nodes.Count != 1)
+                {
+                    SplineNode previousNode = nodes[nodes.IndexOf(node) - 1];
+                    CubicBezierCurve curve = new CubicBezierCurve(previousNode, node);
+                    curve.Changed.AddListener(UpdateAfterCurveChanged);
+                    curves.Add(curve);
+                }
+                RaiseNodeListChanged(new ListChangedEventArgs<SplineNode>()
+                {
+                    type = ListChangeType.Add,
+                    newItems = new List<SplineNode>() { node }
+                });
+
+                UpdateAfterCurveChanged();
+                updateLoopBinding();
+            });            
         }
 
         /// <summary>
