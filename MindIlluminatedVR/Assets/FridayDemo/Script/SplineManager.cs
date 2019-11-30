@@ -13,7 +13,7 @@ public class SplineManager : MonoBehaviour
     private List<GameObject> splines;
 
     private Spline baseSpline;
-    private SplineMeshTiling caveMeshGenerator;
+    private GameObject caveMeshGenerated;
     public SplineMeshTiling splineMeshTiling;
 
     #region DemoVariables
@@ -49,11 +49,17 @@ public class SplineManager : MonoBehaviour
             tempSpline.name= "spline " + i;
 
             // --- Beni - 11.20.
-            // Remove tunnel from "background?" splines
+            // Remove stuff from "background?" splines
             if (i != 0)
             {
                 Spline tmpSplineComponent = tempSpline.transform.GetChild(0).GetComponent<Spline>();
 
+                // Remove contortion
+                TrackContortion contComponent = tmpSplineComponent.GetComponent<TrackContortion>();
+                if (contComponent != null)
+                    contComponent.gameObject.SetActive(false);
+
+                // Remove tunnel
                 for (int j = 0; j < tmpSplineComponent.transform.childCount; j++)
                 {
                     Transform child = tmpSplineComponent.transform.GetChild(j);
@@ -73,22 +79,27 @@ public class SplineManager : MonoBehaviour
             if (i > 0)
             {
                 PositionSpline(i);
-
             }
             else {
 
                 baseSpline = GetSplineComponent(0);
-                baseSpline.GetComponent<SplineMeshTiling>().enabled = true;
-                caveMeshGenerator = baseSpline.transform.GetChild(0).GetComponent<SplineMeshTiling>();
+                if (baseSpline.GetComponent<SplineMeshTiling>() != null)
+                    baseSpline.GetComponent<SplineMeshTiling>().enabled = true;
                 
+                // --- Beni - 11.30.
+                // Set generated cave object to be disabled later
+                if (baseSpline.GetComponent<TrackContortion>() != null)
+                {
+                    caveMeshGenerated = baseSpline.GetComponent<TrackContortion>().transform.GetChild(0).gameObject;
+                }
+                else
+                {
+                    if (baseSpline.transform.GetChild(0).GetComponent<SplineMeshTiling>() != null)
+                        caveMeshGenerated = baseSpline.transform.GetChild(0).GetComponent<SplineMeshTiling>().gameObject;
+                }
+                // --- END
             }
-          
-
-
-
         }
-
-
        // baseSpline.GetComponent<SplineMeshTiling>().CreateMeshOnTheRun(0);
         StartCoroutine(SplineConnector());
 
@@ -103,7 +114,8 @@ public class SplineManager : MonoBehaviour
     }
 
     private void DisableTunnel() {
-        caveMeshGenerator.gameObject.SetActive(false);
+        // Doesn't actually disable generation, only hides generated gameObject
+        caveMeshGenerated.SetActive(false);
     }
 
     #endregion
