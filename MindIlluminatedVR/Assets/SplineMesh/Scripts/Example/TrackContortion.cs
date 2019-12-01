@@ -27,6 +27,8 @@ namespace SplineMesh {
         public List<Vector3> rotations;
         public List<Vector3> scales;
 
+
+        public float textureOffsetScale = 8.09f;
         public float Speed = 0;
         public int Repeat = 0;
 
@@ -66,13 +68,13 @@ namespace SplineMesh {
                 if (contortionStart < 0)
                 {
                     contortionStart = 0;
-                    contortionEnd = contortionStart + contortionLength;
+                    //contortionEnd = contortionStart + contortionLength;
                 }
                 // fix indexes
                 if (contortionEnd >= spline.Length)
                 {
                     contortionEnd = spline.Length;
-                    contortionStart = contortionEnd - contortionLength;
+                    //contortionStart = contortionEnd - contortionLength;
                 }
 
                 for (int i = 0; i < meshBenders.Count; i++)
@@ -80,9 +82,14 @@ namespace SplineMesh {
                     meshBenders[i].SetInterval(spline, contortionStart, contortionEnd);
                     meshBenders[i].ComputeIfNeeded();
                 }
-                
-                //Debug.Log("Benders: " + meshBenders.Count);
-                //Debug.Log("Gen: " + generatedList.Count);
+
+                // Move the texture on the mesh backwards to fake a sense of speed
+                for (int i = 0; i < generatedList.Count; i++)
+                {
+                    float offsetX = 0;
+                    float offsetY = Time.time * Speed / textureOffsetScale;
+                    generatedList[0].GetComponent<Renderer>().sharedMaterial.mainTextureOffset = new Vector2(offsetX,offsetY);
+                }
             }
         }
 

@@ -278,13 +278,14 @@ MonoBehaviour:
   meshes:
   - {fileID: 4300000, guid: e996207865ba4dd4e8ffc119a88caab1, type: 2}
   materials:
-  - {fileID: 2100000, guid: c83e7f8994f9e3b42b86fa3691fc742b, type: 2}
+  - {fileID: 2100000, guid: 7ac05d4c78dbc4bd792428649b027747, type: 2}
   translations:
   - {x: 0, y: 0.6, z: 0.4}
   rotations:
   - {x: 0, y: 90, z: 0}
   scales:
   - {x: 1, y: 2, z: 2}
+  textureOffsetScale: 8.09
   Speed: 5
   Repeat: 5
 --- !u!114 &2621609234626931427
@@ -368,7 +369,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c83e7f8994f9e3b42b86fa3691fc742b, type: 2}
+  - {fileID: 2100000, guid: 7ac05d4c78dbc4bd792428649b027747, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
