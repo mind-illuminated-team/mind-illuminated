@@ -88,7 +88,12 @@ namespace SplineMesh {
                 {
                     float offsetX = 0;
                     float offsetY = Time.time * Speed / textureOffsetScale;
-                    generatedList[0].GetComponent<Renderer>().sharedMaterial.mainTextureOffset = new Vector2(offsetX,offsetY);
+
+                    // Works in editor, but applies changes directly to the assets, which is bad
+                    //generatedList[0].GetComponent<Renderer>().sharedMaterial.mainTextureOffset = new Vector2(offsetX, offsetY);
+
+                    // Doesn't work in editor
+                    generatedList[0].GetComponent<Renderer>().material.mainTextureOffset = new Vector2(offsetX, offsetY);
                 }
             }
         }
