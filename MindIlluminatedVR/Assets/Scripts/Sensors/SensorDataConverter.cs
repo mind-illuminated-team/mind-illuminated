@@ -16,13 +16,13 @@ namespace Sensors {
 
         
         // Converts a list of uint16 values to a new line separated list in a string
-        public static string SensorDataListToString(List<ushort> sensorData)
+        public static string SensorDataListToString(List<SensorData> sensorData)
         {
             StringBuilder sb = new StringBuilder();
 
             sb.Append("Sensor data\n");
 
-            sensorData.ForEach(d => sb.Append(d).Append("\n"));
+            sensorData.ForEach(d => sb.Append(d.Data).Append("\n"));
 
             return sb.ToString();
         }

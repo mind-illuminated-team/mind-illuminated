@@ -1,44 +1,81 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Sensors
 {
     public class SensorDataProvider : Singleton<SensorDataProvider>, IUDPDataListener
     {
 
-        private List<ushort> sensorData;
+        private List<SensorData> sensorData;
 
-        private bool capturing;
+        private Stopwatch stopwatch;
 
         public void Listen(string data)
         {
-            if (capturing)
+            if (stopwatch.IsRunning)
             {
-                sensorData.Add(SensorDataConverter.StringToUshort(data));
+                sensorData.Add(new SensorData(SensorDataConverter.StringToUshort(data), stopwatch.ElapsedMilliseconds));
             }
         }
 
         void Awake()
         {
-            sensorData = new List<ushort>();
+            stopwatch = new Stopwatch();
+            sensorData = new List<SensorData>();
             UDPConnection.Instance.RegisterListener(this);
         }
 
         public ushort? GetLastData()
         {
-            return sensorData.Count == 0 ? sensorData[sensorData.Count - 1] : (ushort?) null;
+            return sensorData.Count == 0 ? sensorData[sensorData.Count - 1].Data : (ushort?) null;
+        }
+
+        public float? GetAverageOfLastSeconds(float seconds)
+        {
+            int size = sensorData.Count;
+            if (size == 0 || seconds <= 0)
+            {
+                return null;
+            }
+
+            SensorData lastData = sensorData[size - 1];
+            int sum = lastData.Data;
+            if (size == 1)
+            {
+                return sum;
+            }
+
+            long milliseconds = Convert.ToInt64(seconds * 1000);
+            float startTime = lastData.Time;
+            int counter = 1;
+            for (int i = size - 2; i > 0; i--)
+            {
+                SensorData data = sensorData[i];
+                float delta = startTime - data.Time;
+                if (delta > milliseconds)
+                {
+                    break;
+                }
+                sum += data.Data;
+                counter++;
+            }
+
+            return sum / counter;
         }
 
         public void StartCapture()
         {
-            capturing = true;
+            stopwatch.Start();
         }
 
         public void StopCapture()
         {
-            capturing = false;
+            stopwatch.Stop();
+            stopwatch.Reset();
         }
 
-        public List<ushort> GetAllData()
+        public List<SensorData> GetAllData()
         {
             return sensorData;
         }

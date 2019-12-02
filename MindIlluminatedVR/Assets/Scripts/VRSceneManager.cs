@@ -23,7 +23,7 @@ public class VRSceneManager : Singleton<VRSceneManager>
         Input.backButtonLeavesApp = true;
 
         sensorDataProvider = SensorDataProvider.Instance;
-
+        InvokeRepeating("LogAverageData", 5, 5);
     }
 
     private void Update()
@@ -35,6 +35,11 @@ public class VRSceneManager : Singleton<VRSceneManager>
         }
 
         ApplyTiming();
+    }
+
+    private void LogAverageData()
+    {
+        Debug.Log(sensorDataProvider.GetAverageOfLastSeconds(5));
     }
 
     private void ApplyTiming()
