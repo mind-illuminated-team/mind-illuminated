@@ -9,9 +9,9 @@ public class VRSceneManager : Singleton<VRSceneManager>
 {
 
     private static readonly string START_GAME_SCENE = "StartGameScene";
-    private static readonly string GAME_SCENE = "FridayDemoBackupScene";
+    private static readonly string GAME_SCENE = "FinalSceneDemo";
 
-    public float gameDurationSeconds = 20.0f;
+    public float gameDurationSeconds = 90.0f;
 
     private float elapsedTime = 0.0f;
     private bool running = false;
@@ -23,7 +23,9 @@ public class VRSceneManager : Singleton<VRSceneManager>
         Input.backButtonLeavesApp = true;
 
         sensorDataProvider = SensorDataProvider.Instance;
-        InvokeRepeating("LogAverageData", 5, 5);
+
+        // Beni - Disabled logging because it creates a new checkpoint
+        //InvokeRepeating("LogAverageData", 5, 5);
     }
 
     private void Update()
@@ -39,7 +41,7 @@ public class VRSceneManager : Singleton<VRSceneManager>
 
     private void LogAverageData()
     {
-        Debug.Log(sensorDataProvider.GetAverageOfLastSeconds(5));
+        Debug.Log("Average since checkpoint: " + sensorDataProvider.GetAverageSinceLastCheckPoint(degree:1));
     }
 
     private void ApplyTiming()

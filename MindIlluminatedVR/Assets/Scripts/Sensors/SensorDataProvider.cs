@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using UnityEngine;
+
 namespace Sensors
 {
     public class SensorDataProvider : Singleton<SensorDataProvider>, IUDPDataListener
     {
-
         private List<SensorData> sensorData;
 
         private Stopwatch stopwatch;
@@ -29,6 +30,41 @@ namespace Sensors
         public ushort? GetLastData()
         {
             return sensorData.Count == 0 ? sensorData[sensorData.Count - 1].Data : (ushort?) null;
+        }
+
+        public float? GetAverageSinceLastCheckPoint(double degree)
+        {
+            int size = sensorData.Count;
+            if (size == 0)
+            {
+                return null;
+            }
+            SensorData lastData = sensorData[size - 1];
+            lastData.CheckPoint = true;
+            double sum = Math.Pow(lastData.Data,degree);
+            if (size == 1)
+            {
+                return (float)sum;
+            }
+
+            int counter = 1;
+            for (int i = size - 2; i > 0; i--)
+            {
+                SensorData data = sensorData[i];
+                if (data.CheckPoint)
+                {
+                    break;
+                }
+                sum += Math.Pow(lastData.Data, degree);
+                counter++;
+            }
+
+            // Normalized
+            double average = Math.Pow(sum / counter, 1 / degree);
+
+            //double average = sum / counter;
+
+            return (float)(average);
         }
 
         public float? GetAverageOfLastSeconds(float seconds)

@@ -6,9 +6,12 @@
     // time passed in milliseconds since capturing started
     public long Time { get; set; }
 
+    public bool CheckPoint { get; set; }
+
     public SensorData(ushort data, long time)
     {
         Data = data;
         Time = time;
+        CheckPoint = false;
     }
 }

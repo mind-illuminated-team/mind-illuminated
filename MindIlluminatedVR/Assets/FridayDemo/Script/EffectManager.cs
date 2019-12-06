@@ -9,18 +9,18 @@ public class EffectManager : MonoBehaviour
     public Camera mainCam;
 
 
-
+    public Animator cameraEyesAnimator;
 
     public Bloom bloomScript;
-    private float bloomIncrement = 2;
-    private float bloomDelay = .05f;
+    private float bloomIncrement = 4;
+    private float bloomDelay = .1f;
     private float bloomStep = 40;
 
 
-    public MotionBlur motionBlurScript;
+    //public MotionBlur motionBlurScript;
     public CustomImageEffect customImageEffectScript;
     public FlipImageCameraEffect flipEffectScript;
-
+    public CameraShake cameraShakeEffect;
 
     private float focalIncrement = 10;
     private float focalDelay = .01f;
@@ -34,7 +34,7 @@ public class EffectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -66,9 +66,42 @@ public class EffectManager : MonoBehaviour
     }
 
 
-        public void InvokeBloom() {
+    public void InvokeBloom() {
 
         StartCoroutine(PlayBoomEffect());
+        StartCoroutine(CloseEyes());
+        StartCoroutine(PlayRandomEffect());
+    }
+
+
+    private float effectDelay = 3;
+    private float effectDuration = 10;
+
+    private int tunnelIndex = 0;
+    private IEnumerator PlayRandomEffect() {
+
+
+        int randomEffectIndex = Random.Range(0, 2);
+        //randomEffectIndex = 3;
+        yield return new WaitForSeconds(Random.Range(0,effectDelay));
+        TurnEffectByIndex(tunnelIndex);
+        yield return new WaitForSeconds(Random.Range(4, effectDuration));
+        tunnelIndex++;
+        tunnelIndex = tunnelIndex % 4;
+        TurnEffectByIndex(3);
+
+
+    }
+
+    private IEnumerator CloseEyes() {
+
+        cameraEyesAnimator.SetTrigger("Close");
+        yield return new WaitForSeconds(.5f);
+        cameraEyesAnimator.SetBool("Open", true);
+        yield return new WaitForSeconds(.5f);
+        cameraEyesAnimator.SetBool("Open", false);
+
+
     }
     private IEnumerator PlayBoomEffect()
     {
@@ -98,30 +131,31 @@ public class EffectManager : MonoBehaviour
         switch (index) {
 
             case 0:
-                motionBlurScript.enabled = true;
+                //motionBlurScript.enabled = true;
                 customImageEffectScript.enabled = false;
                 flipEffectScript.enabled = false;
             break;
 
             case 1:
-                motionBlurScript.enabled = false;
+                //motionBlurScript.enabled = false;
                 customImageEffectScript.enabled = true;
                 flipEffectScript.enabled = false;
             break;
 
+          
+
             case 2:
-                motionBlurScript.enabled = false;
+                //motionBlurScript.enabled = false;
                 customImageEffectScript.enabled = false;
-                flipEffectScript.enabled = true;
+                flipEffectScript.enabled = false;
+                cameraShakeEffect.SetTrauma();
             break;
 
             case 3:
-                motionBlurScript.enabled = false;
+                //motionBlurScript.enabled = false;
                 customImageEffectScript.enabled = false;
                 flipEffectScript.enabled = false;
-            break;
-
-
+                break;
 
 
         }

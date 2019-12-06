@@ -560,11 +560,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 1517649491782152359, guid: 6c840c3e3b51ae9479e6f6b5b3984202,
-        type: 3}
-      propertyPath: m_RenderAlignment
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6897563099589398065, guid: 6c840c3e3b51ae9479e6f6b5b3984202,
         type: 3}
       propertyPath: m_LocalRotation.y
@@ -583,6 +578,11 @@ PrefabInstance:
     - target: {fileID: 6897563099589398065, guid: 6c840c3e3b51ae9479e6f6b5b3984202,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517649491782152359, guid: 6c840c3e3b51ae9479e6f6b5b3984202,
+        type: 3}
+      propertyPath: m_RenderAlignment
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4895475416375183741, guid: 6c840c3e3b51ae9479e6f6b5b3984202,

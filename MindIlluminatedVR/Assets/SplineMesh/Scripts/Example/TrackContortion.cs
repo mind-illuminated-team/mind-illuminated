@@ -51,6 +51,9 @@ namespace SplineMesh {
         }
 
         void EditorUpdate() {
+            // Match speed to SplineCart
+            Speed = SplineCart.instance.Speed;
+
             distance += Time.deltaTime * Speed;
             if (distance >= spline.Length) {
                 distance = 0;
@@ -96,6 +99,11 @@ namespace SplineMesh {
                     generatedList[0].GetComponent<Renderer>().material.mainTextureOffset = new Vector2(offsetX, offsetY);
                 }
             }
+        }
+
+
+        public void SetMaterial(Material material) {
+            generatedList[0].GetComponent<MeshRenderer>().material = material;
         }
 
         private void Init() {

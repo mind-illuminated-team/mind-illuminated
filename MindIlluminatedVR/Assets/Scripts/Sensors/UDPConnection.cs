@@ -50,9 +50,9 @@ namespace Sensors
                     if (receiveBytes != null)
                     {
                         string data = Encoding.ASCII.GetString(receiveBytes);
-                        Debug.Log("Message Received: " + data.ToString() +
-                            "\nAddress IP Sender: " + RemoteIpEndPoint.Address.ToString() +
-                            "\nPort Number Sender: " + RemoteIpEndPoint.Port.ToString());
+                        //Debug.Log("Message Received: " + data.ToString() +
+                        //    "\nAddress IP Sender: " + RemoteIpEndPoint.Address.ToString() +
+                        //    "\nPort Number Sender: " + RemoteIpEndPoint.Port.ToString());
 
                         listeners.ForEach(l => l.Listen(data));
                     }

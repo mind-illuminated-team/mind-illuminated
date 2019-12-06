@@ -4,9 +4,10 @@ using UnityEngine;
 using SplineMesh;
 public class SplineCart : MonoBehaviour
 {
+    public static SplineCart instance;
 
     private Spline currentSpline;
-    private float distance = 0;
+    public float distance = 0;
 
     public GameObject Follower;
     //public float DurationInSecond;
@@ -15,6 +16,12 @@ public class SplineCart : MonoBehaviour
 
     private int splineCount = 0;
     private float nextSplinejumpPoint = .99f;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
