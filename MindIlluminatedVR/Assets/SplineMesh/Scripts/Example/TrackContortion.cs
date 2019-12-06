@@ -52,12 +52,12 @@ namespace SplineMesh {
 
         void EditorUpdate() {
             // Match speed to SplineCart
+            distance = SplineCart.instance.distance;
             Speed = SplineCart.instance.Speed;
-
-            distance += Time.deltaTime * Speed;
-            if (distance >= spline.Length) {
-                distance = 0;
-            }
+            //distance += Time.deltaTime * Speed;
+            //if (distance >= spline.Length) {
+            //    distance = 0;
+            //}
             Contort();
         }
 

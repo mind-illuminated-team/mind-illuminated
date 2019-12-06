@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23197767, g: 0.23567373, b: 0.27135992, a: 1}
+  m_IndirectSpecularColor: {r: 0.23222879, g: 0.2354497, b: 0.27223074, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -402,7 +402,7 @@ MonoBehaviour:
   fearLevelTresholdPercantage: 10
   degreeOfSum: 1
   currentFearLevel: 0
-  generationDistance: 50
+  generationDistance: 20
   patternsPrefab:
   - {fileID: 1960268031664626497, guid: 81528b07a8553e74c8edf99dfd8a2b21, type: 3}
   - {fileID: 1960268031664626497, guid: 9ca8b1da5e94de049af18af36033f61f, type: 3}
